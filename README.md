@@ -3,7 +3,7 @@
 
 
 ### [웹사이트주소](https://gwanholee.azurewebsites.net/)  : 아이디=tony 패스워드=shirth, 회원가입해도 무관.
-
+  무료서버라 로딩타임이 2분 정도 걸립니다....
 
 
 ### 필수스택
