@@ -5,7 +5,7 @@ from rest_framework import serializers
 from product.models import Product, Order
 from django.conf import settings
 from django.contrib.auth import get_user_model
-
+from accounts.models import Profile
 
 # 상품 조회 페이지
 class PostSerializer(serializers.ModelSerializer):
@@ -20,6 +20,7 @@ class PostSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField('name_p')
     price = serializers.SerializerMethodField('price_p')
+    
 
     def name_p(self, order):
         return order.basket_order.p_name
@@ -31,7 +32,7 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         # 내림차순
         ordering = ['-quantity']
-        fields = ['name', 'basket_user', 'price', 'quantity']
+        fields = ['name', 'price', 'quantity']
 
 
 # http http://localhost:8000/product_serializer/api/orders/ "Authorization: JWT %token%"
@@ -41,6 +42,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['id','last_login','username','last_name','first_name','email','addr','phone_number','gender','user_photo']
+
+
 
 class BuyingSerializer(serializers.ModelSerializer):
     구매물품 = serializers.SerializerMethodField('find_name')
@@ -61,15 +64,18 @@ class BuyingSerializer(serializers.ModelSerializer):
 
 
 class BestProductSerializer(serializers.ModelSerializer):
-    # product = serializers.SerializerMethodField('find_best_product')
+    많은사용자가구매한상품 = serializers.SerializerMethodField('find_best_product')
     
+
     class Meta:
         model = Product
-        fields = "__all__"
-
-    # def find_best_product(self, product):
-    #     li=[n.count for n in product.objects.all()]
-    #     index=li.index(max(li))
-    #     best_product=product.objects.all()[index]
-    #     return best_product
+        fields = ['많은사용자가구매한상품']
+        # fields = "__all__"
+    def find_best_product(self, product):
+        products=Product.objects.all()
+        li=[n.count for n in products]
+        ind=li.index(max(li))
+        best_product=products[ind]
+        best=str(best_product)
+        return best
    

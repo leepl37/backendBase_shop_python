@@ -19,14 +19,14 @@ class Product(models.Model):
 
     def __str__(self):
         return self.p_name
-
-    def sum(self):
-        return self.quantity * self.price
     
     def plus_count(self, product):
         product.count+=1
         product.save()
         
+
+    def sum(self):
+        return self.quantity * self.price
 
 # 사진 여러장 첨부
 class Photo(models.Model):

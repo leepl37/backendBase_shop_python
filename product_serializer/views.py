@@ -62,7 +62,12 @@ class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 
-
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(
+            Q(basket_user=self.request.user)
+        )
+        return qs
 #상품관리기능 2-3 \\ 최근 일주일간 등록된 제품을 최신순으로 조회 기능 페이지네이션 구현
 class RecentViewSet(ModelViewSet):
     queryset = Product.objects.all()
@@ -104,9 +109,4 @@ class PostViewSet(ModelViewSet):
     serializer_class = PostSerializer
 
     
-    def get_queryset(self):
-        qs = super().get_queryset()
-        li=[n.count for n in list(qs)]
-        index=li.index(max(li))
-        qs=(list(qs))[index]
-        return qs
+

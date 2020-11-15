@@ -58,6 +58,7 @@ def product_of_week(request):
 
 @login_required
 def shop_basket(request):
+    
     product = request.user.order_set.all()
 
     paginator = Paginator(product, 5)
