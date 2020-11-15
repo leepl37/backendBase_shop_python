@@ -1,0 +1,22 @@
+{% extends 'root.html'%}
+
+{% block contents %}
+
+<hr>
+{% if user.user_photo %}
+<img src = "{{user.user_photo.url}}" style = "width:160px" "height:160px">
+{% else %}
+사진 없음 
+{% endif %}
+<hr>
+성 : {{ user.last_name }} -  이름 : {{user.first_name}}<br>
+<hr>
+성별 : {{user.gender}} <br>
+<hr>
+연락처 : {{user.phone_number}} 
+<hr>
+주소 : {{ user.addr}}
+<hr>
+<a href = "{% url 'accounts:profilechange' %}">개인정보 변경하기</a>
+<a href = "{% url 'accounts:passwordchange' %}">비밀번호 변경</a>
+{% endblock %}

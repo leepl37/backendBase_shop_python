@@ -1,0 +1,17 @@
+{% extends 'root.html'%}
+
+{% block contents%}
+{{product}}
+||{{product_count}}
+<hr>
+구매물품 : <br>
+<hr>
+{% for p in request.user.buying_order.all%}
+  {{ p }} <a href = "{% url 'product:buying_delete' p.pk%}"> || 삭제 </a><br>  
+{% endfor %}
+
+
+
+
+
+{% endblock %}

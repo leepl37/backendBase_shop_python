@@ -1,0 +1,28 @@
+
+{% for m in messages %}
+{{ m.message }}
+{% endfor %}
+
+
+{% if user.is_authenticated %}
+<a href = "{% url 'accounts:profile' %}">프로필</a> || 
+<a href = "{% url 'accounts:logout' %}">로그아웃</a>  ||
+<a href = "{% url 'product:list' %}">쇼핑</a>  || 
+<a href = "{% url 'product:shop_basket' %}">장바구니</a> ||
+<a href = "{% url 'product:buying_product_list' %}">구매물품</a> ||
+<a href = "{% url 'product:best_buying_product' %}">가장 많이 구매한 물품</a> ||
+<a href = "{% url 'product:product_of_week' %}">최근 일주일 상품</a> ||||
+<a href = "http://gwanholee.azurewebsites.net/product_serializer/api/">RestAPI 주소 </a> /product_serializer/api
+
+
+<hr>
+<br>
+{% else %}
+<a href = "{% url 'accounts:login' %}">로그인</a>
+<a href = "{% url 'accounts:signup' %}">회원가입</a>
+<hr>
+<br>
+{% endif %}
+
+{% block contents %}
+{% endblock %}

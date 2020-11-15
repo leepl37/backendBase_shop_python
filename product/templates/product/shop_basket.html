@@ -1,0 +1,28 @@
+{% extends 'root.html'%}
+{% block contents %}
+
+{{user}}' 장바구니
+<hr>
+
+
+{% for p in product %}
+<div>
+주문 상품 : {{p.basket_order}} | <a href = "{% url 'product:list_remove' p.pk %}">반환</a>),
+개수: {{p.quantity}}
+<a href = "{% url 'product:buying_product' p.pk %}">구매하기</a>
+<hr>
+</div>
+{% endfor %} 
+<hr>
+{% if product.previous_page_number > 0 %}
+<a href="?page={{ product.previous_page_number}} " > 이전</a>
+{% endif %}
+현재: {{page}}
+{% if product.has_next %}
+<a href="?page={{ product.next_page_number}} " > 다음</a>
+{% else %}        
+        마지막
+{% endif %}
+
+
+{% endblock %}
