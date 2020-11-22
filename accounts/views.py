@@ -1,4 +1,5 @@
 # Create your views here.
+from django.conf import settings
 from django.db.models import Q
 from django.http import HttpResponse
 from accounts.serializers import SignupSerializer
@@ -88,20 +89,15 @@ def profilechange(request):
     })
 
 
-
-
-
 # 회원가입 API
-
-
+# settings.AUTH_USER_MODEL
 
 
 class SignupView(CreateAPIView):  # CreateAPIView는 get method는 not allowed/ POST is allowed
-    model = get_user_model()
+    # model = get_user_model()
+    model = Profile     # ->  settings.AUTH_USER_MODEL
     serializer_class = SignupSerializer
     permission_classes = [AllowAny]
-# 다른 웹에서 호출 시, 이행되는 메소드, createAPI이기 때문에 get으로 요청이 오면 에러
-# http POST http://localhost:8000/accounts/signupAPI/ username = "" password = "" 라고 요청을 보냄,, 중복확인까지 가능.
 
 
 # 개인 프로필 API

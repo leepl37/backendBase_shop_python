@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'product_serializer',
     'django_filters',
     'corsheaders',
+    # 'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -56,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #  'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'test_1114.urls'
@@ -137,17 +139,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 REST_FRAMEWORK = {
-
-    # 'DEFAULT_PERMISSION_CLASSES': (
-    #     'rest_framework.permissions.IsAuthenticated',
-    # ),
-    # # JWT 토큰인증
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    #     'rest_framework.authentication.SessionAuthentication',
-    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     "PAGE_SIZE":3,
     "DEFAULT_PAGINATION_CLASS":'rest_framework.pagination.PageNumberPagination',
+    # JWT 토큰인증
 }
 JWT_AUTH = {
     'JWT_SECRET_KEY': SECRET_KEY,
@@ -155,5 +156,9 @@ JWT_AUTH = {
     "JWT_ALLOW_REFRESH": True,
     'JWT_EXPIRATION_DELTA': timedelta(days=7),
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
-
 }
+
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]

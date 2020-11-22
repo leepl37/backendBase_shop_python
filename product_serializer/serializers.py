@@ -1,3 +1,4 @@
+import json
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from accounts.models import Profile
@@ -8,6 +9,8 @@ from django.contrib.auth import get_user_model
 from accounts.models import Profile
 
 # 상품 조회 페이지
+
+
 class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -18,9 +21,10 @@ class PostSerializer(serializers.ModelSerializer):
 
 # 상품별 주문수 내림차순 조회
 class OrderSerializer(serializers.ModelSerializer):
+
     name = serializers.SerializerMethodField('name_p')
     price = serializers.SerializerMethodField('price_p')
-    
+    pk_p = serializers.SerializerMethodField('p_pk')
 
     def name_p(self, order):
         return order.basket_order.p_name
@@ -28,12 +32,20 @@ class OrderSerializer(serializers.ModelSerializer):
     def price_p(self, order):
         return order.basket_order.price
 
+    def p_pk(self, order):
+        return order.basket_order.pk
+
     class Meta:
         model = Order
         # 내림차순
         ordering = ['-quantity']
-        fields = ['name', 'price', 'quantity']
+        fields = ['id', 'pk_p', 'name', 'price', 'quantity']
 
+
+class Order_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = "__all__"
 
 # http http://localhost:8000/product_serializer/api/orders/ "Authorization: JWT %token%"
 
@@ -41,8 +53,8 @@ class OrderSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['id','last_login','username','last_name','first_name','email','addr','phone_number','gender','user_photo']
-
+        fields = ['id', 'last_login', 'username', 'last_name', 'first_name',
+                  'email', 'addr', 'phone_number', 'gender', 'user_photo']
 
 
 class BuyingSerializer(serializers.ModelSerializer):
@@ -50,32 +62,21 @@ class BuyingSerializer(serializers.ModelSerializer):
 
     def find_name(self, user):
         name_p = user.buying_order.all()
-        test = [ n.p_name for n in name_p]
+        test = [n.p_name for n in name_p]
         return str(test)
-        # test=name_p[0]
-
-        # return str(test)
 
     class Meta:
-        
-        model = Profile
-        fields = ['username','구매물품']
 
+        model = Profile
+        fields = ['username', '구매물품']
 
 
 class BestProductSerializer(serializers.ModelSerializer):
-    많은사용자가구매한상품 = serializers.SerializerMethodField('find_best_product')
-    
+    가장많이팔린상품 = serializers.SerializerMethodField('best_product')
 
+    def best_product(self, product):
+        return product.p_name 
+    
     class Meta:
         model = Product
-        fields = ['많은사용자가구매한상품']
-        # fields = "__all__"
-    def find_best_product(self, product):
-        products=Product.objects.all()
-        li=[n.count for n in products]
-        ind=li.index(max(li))
-        best_product=products[ind]
-        best=str(best_product)
-        return best
-   
+        fields = ['가장많이팔린상품']

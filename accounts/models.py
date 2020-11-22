@@ -21,4 +21,5 @@ class Profile(AbstractUser):
         blank=True, null=True, upload_to='accounts/%y%m')
     gender = models.CharField(max_length=80, choices=GENDER_CHOICE, null=True)
     buying_order = models.ManyToManyField(Product, blank = True)
+    # buying_order = models.ForeignKey(Product, on_delete=models.CASCADE)
     
