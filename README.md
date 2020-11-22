@@ -143,8 +143,8 @@ class BestProductViewSet(ModelViewSet):
         return qs
 ```
 
->추가 구현
- *2-6 장바구니에 있는 상품을 구매리스트로 이동하는 기능 
+> 추가 구현
+ * 2-6 장바구니에 있는 상품을 구매리스트로 이동하는 기능 
  ```py
  class OrderViewSet(ModelViewSet):
 
@@ -169,7 +169,7 @@ class BestProductViewSet(ModelViewSet):
         return Response(status.HTTP_204_NO_CONTENT)
  ```
 
- *2-7 상품을 장바구니로 담는 기능 구현
+ * 2-7 상품을 장바구니로 담는 기능 구현
  ```py
  class Product_to_BasketViewSet(ModelViewSet):
     queryset = Order.objects.all()
