@@ -127,19 +127,23 @@ class BuyingViewSet(ModelViewSet):
 
 ```py
 class BestProductSerializer(serializers.ModelSerializer):
-  product = serializers.SerializerMethodField('find_best_product')
+    많은사용자가구매한상품 = serializers.SerializerMethodField('find_best_product')
+    
 
-  class Meta:
-    model = Product
-    fields = "__all__"
-
-  def find_best_product(self, product):
-    li=[n.count for n in product.objects.all()]
-    index=li.index(max(li))
-    best_product=product.objects.all()[index]
-    return best_product
+    class Meta:
+        model = Product
+        fields = ['많은사용자가구매한상품']
+    
+    
+    def find_best_product(self, product):
+        products=Product.objects.all()
+        li=[n.count for n in products]
+        ind=li.index(max(li))
+        best_product=products[ind]
+        best=str(best_product)
+        return best
 ```
-(웹에선 작동은 되지만, API는 구현 하지못하였습니다.)
+(웹에선 작동은 되지만, API는 구현 중복 업로드..)
 
 
 ### Model 설계
