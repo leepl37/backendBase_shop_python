@@ -126,26 +126,69 @@ class BuyingViewSet(ModelViewSet):
 * 2-5 가장 많은 사용자가 구매한 상품 리스트 조회(단순 주문 수 X)
 
 ```py
-class BestProductSerializer(serializers.ModelSerializer):
-    많은사용자가구매한상품 = serializers.SerializerMethodField('find_best_product')
-    
+class BestProductViewSet(ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = BestProductSerializer
 
-    class Meta:
-        model = Product
-        fields = ['많은사용자가구매한상품']
-    
-    
-    def find_best_product(self, product):
-        products=Product.objects.all()
-        li=[n.count for n in products]
-        ind=li.index(max(li))
-        best_product=products[ind]
-        best=str(best_product)
-        return best
+
+    def get_queryset(self):
+        product = Product.objects.all()
+        li = [n.count for n in product]
+        ind = li.index(max(li))
+        best_product = product[ind]
+        qs = super().get_queryset()
+        qs = qs.filter(
+            Q(p_name=best_product)
+        )
+        return qs
 ```
-(웹에선 작동은 되지만, API는 구현 중복 업로드..)
 
+> 추가 구현
+ * 2-6 장바구니에 있는 상품을 구매리스트로 이동하는 기능 
+ ```py
+ class OrderViewSet(ModelViewSet):
 
+    # queryset = Order.objects.all().select_related("basket_user").prefetch_related("basket_order")
+    # .select_related("basket_order").prefetch_related("basket_user")
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(
+            Q(basket_user=self.request.user)
+        )
+        return qs
+
+    @action(detail=True, methods=["POST"])
+    def add(self, request, pk):
+        order = self.get_object()
+        order.basket_order.plus_count(order.basket_order)
+        request.user.buying_order.add(order.basket_order)
+        order.delete()
+        return Response(status.HTTP_204_NO_CONTENT)
+ ```
+
+ * 2-7 상품을 장바구니로 담는 기능 구현
+ ```py
+ class Product_to_BasketViewSet(ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(basket_order__id=self.kwargs['product_id'])
+        return qs
+
+    def perform_create(self, serializer):
+        product = get_object_or_404(Product, pk=self.kwargs['product_id'])
+        basket_user = self.request.user
+        basket_order = product
+        quantity = self.kwargs['product_quantity']
+        serializer.save(basket_user=basket_user,
+                        basket_order=basket_order, quantity=quantity)
+        return super().perform_create(serializer)
+ ```
 ### Model 설계
 
 서비스 회원정보 모델. 회원의 프로필 사진을 포함하고 Django User 와 연동되는 프로필 모델이다.
