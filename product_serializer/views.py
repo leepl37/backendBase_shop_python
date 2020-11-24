@@ -37,6 +37,7 @@ class UserViewSet(ModelViewSet):
 
 # 상품관리기능 2-1 \\ name 필드 검색을 통한 n개 상품을 조회 기능 페이지네이션 구현
 
+
 class SearchViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = PostSerializer
@@ -108,6 +109,8 @@ class BuyingViewSet(ModelViewSet):
         return qs
 
 # 상품관리기능 2-5 \\ 가장 많은 사용자가 구매한 상품 리스트 조회(단순 주문 수 X
+
+
 class BestProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = BestProductSerializer
@@ -119,12 +122,8 @@ class BestProductViewSet(ModelViewSet):
         ind = li.index(max(li))
         best_product = product[ind]
         qs = super().get_queryset()
-        qs = qs.filter(
-            Q(p_name=best_product)
-        )
+        qs = qs.filter(p_name=best_product)
         return qs
-
-
 
 
 class PostViewSet(ModelViewSet):
@@ -149,3 +148,16 @@ class Product_to_BasketViewSet(ModelViewSet):
         serializer.save(basket_user=basket_user,
                         basket_order=basket_order, quantity=quantity)
         return super().perform_create(serializer)
+
+#판매 순위 별
+class test(APIView):
+    def get(self, request, format=None):
+        products=Product.objects.all()
+        li = [ product for product in products]
+        count_li=len(li)
+        for i in range(count_li):
+            for j in range(count_li-1, i, -1):
+                if li[j].count > li[j-1].count:
+                    li[j], li[j-1] = li[j-1], li[j]
+        
+        return Response({'판매순위': str(li)})

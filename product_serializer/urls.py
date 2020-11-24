@@ -11,15 +11,18 @@ router.register(r"posts/(?P<product_id>\d+)/basket/(?P<product_quantity>\d+)",
 
 router.register('search_posts', views.SearchViewSet, basename="SearchView")
 router.register('decending_orders', views.OrderViewSet, basename="OrderView")
-router.register(r"decending_orders/(?P<order_pk>\d+)", views.BuyingViewSet, basename="BuyingAddView")
+router.register(r"decending_orders/(?P<order_pk>\d+)",
+                views.BuyingViewSet, basename="BuyingAddView")
 router.register('recent_posts', views.RecentViewSet, basename="RecentView")
-router.register('customer_buying_list', views.BuyingViewSet, basename='TestView')
+router.register('customer_buying_list',
+                views.BuyingViewSet, basename='TestView')
 router.register('best_product', views.BestProductViewSet,
                 basename='BestProductView')
-
+# router.register('test', views.test.as_view(), basename='test')
 app_name = 'product_serializer'
 urlpatterns = [
     path('api/', include(router.urls)),
+    path('test/', views.test.as_view())
 ]
 
 # http http://localhost:8000/product_serializer/api/posts 상품조회
