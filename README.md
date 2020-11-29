@@ -1,8 +1,3 @@
-## 검색엔진 엔지니어 과제 테스트
-
-
-### [웹사이트주소](https://gwanholee.azurewebsites.net/)  : 아이디=tony 패스워드=shirth, 회원가입해도 무관.
-    로딩타임 2분 소요....
 
 ### 필수스택
 * Python3.6 이상

@@ -1,28 +1,52 @@
+{% load static %}
+<!doctype html>
+<html>
+<head>
+<meta charset = "utf-8" />
+<title> 백엔드 쇼핑몰 구축하기  </title>
 
-{% for m in messages %}
-{{ m.message }}
-{% endfor %}
 
+{% comment %} <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"> {% endcomment %}
+{% comment %} <link rel="stylesheet" href="{% static "bootstrap-4.5.2-dist/css/bootstrap.min.css" %}" /> {% endcomment %}
+{% comment %} <script src="{% static "jquery-3.5.1.min.js" %}"></script> {% endcomment %}
+{% comment %} <script src="{% static "bootstrap-4.5.2-dist/js/bootstrap.min.js" %}"></script> {% endcomment %}
 
+<div class = "border-bottom mb-6">
+        {% for m in messages %}
+        {{ m.message}}
+        {% endfor %}
+    <div class = "container">
+        <div class = "row">
+            <div class = "col-sm-20">
+            <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white ">
+                <h5 class="my-0 mr-md-auto font-weight-normal">
+                {% comment %} <svg class = "mr-2"  fill="#262626" height="22" viewBox="0 0 48 48" width="22"><path d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l13.2 13c.5.4 1.1.6 1.7.3l16.6-8c.7-.3 1.6-.1 2 .5.4.7.2 1.6-.5 2l-15.6 9.9c-.5.3-.8 1-.7 1.6l4.6 19c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.5-.5.5-1.1.2-1.6z"></path></svg>                 {% endcomment %}
+     <nav class="my-2 my-md-0 mr-md-3">
 {% if user.is_authenticated %}
-<a href = "{% url 'accounts:profile' %}">프로필</a> || 
-<a href = "{% url 'accounts:logout' %}">로그아웃</a>  ||
-<a href = "{% url 'product:list' %}">쇼핑</a>  || 
-<a href = "{% url 'product:shop_basket' %}">장바구니</a> ||
-<a href = "{% url 'product:buying_product_list' %}">구매물품</a> ||
-<a href = "{% url 'product:best_buying_product' %}">가장 많이 구매한 물품</a> ||
-<a href = "{% url 'product:product_of_week' %}">최근 일주일 상품</a> ||||
-<a href = "http://gwanholee.azurewebsites.net/product_serializer/api/">RestAPI 주소 </a> /product_serializer/api
+<a class="p-2 text-dark" href = "{% url 'accounts:profile' %}">프로필</a> || 
+<a class="p-2 text-dark" href = "{% url 'accounts:logout' %}">로그아웃</a>  ||
+<a class="p-2 text-dark" href = "{% url 'product:list' %}">쇼핑</a>  || 
+<a class="p-2 text-dark" href = "{% url 'product:shop_basket' %}">장바구니</a> ||
+<a class="p-2 text-dark" href = "{% url 'product:buying_product_list' %}">구매물품</a> ||
+<a class="p-2 text-dark" href = "{% url 'product:best_buying_product' %}">가장 많이 구매한 물품</a> ||
+<a class="p-2 text-dark" href = "{% url 'product:product_of_week' %}">최근 일주일 상품</a> ||||
+<a class="p-2 text-dark" href = "http://tonylee3737.pythonanywhere.com/product_serializer/api/">RestAPI 주소 </a> 
 
-
+</nav>
 <hr>
 <br>
 {% else %}
-<a href = "{% url 'accounts:login' %}">로그인</a>
-<a href = "{% url 'accounts:signup' %}">회원가입</a>
+<a class="btn btn-outline-primary" href = "{% url 'accounts:login' %}">로그인</class=>
+<a class="btn btn-outline-primary" href = "{% url 'accounts:signup' %}">회원가입</a>
 <hr>
 <br>
 {% endif %}
 
 {% block contents %}
 {% endblock %}
+
+
+
+
+ </body>
+ </html>

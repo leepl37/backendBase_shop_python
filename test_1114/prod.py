@@ -24,7 +24,6 @@ DATABASES = {
     },
 }
 
-
 # docker run --rm --publish 9966:80 ^
 # -e DJANGO_SETTINGS_MODULE=test_1114.prod ^
 # -e AZURE_ACCOUNT_NAME=gwanholee ^

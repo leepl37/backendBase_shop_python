@@ -23,7 +23,7 @@ def list(request):
         product = Product.objects.all()
 
     # 페이지네이션
-    paginator = Paginator(product, 3)
+    paginator = Paginator(product, 5)
     if request.GET.get('page') == None:
         page = 1
     else:
@@ -42,7 +42,7 @@ def product_of_week(request):
     timesince = timezone.now() - timedelta(days=7)
     product = Product.objects.all().filter(
         created_at__gte=timesince)[::-1]
-    paginator = Paginator(product, 3)
+    paginator = Paginator(product, 5)
     if request.GET.get('page') == None:
         page = 1
     else:
@@ -58,7 +58,7 @@ def product_of_week(request):
 
 @login_required
 def shop_basket(request):
-    
+
     product = request.user.order_set.all()
 
     paginator = Paginator(product, 5)
@@ -127,9 +127,9 @@ def buying_delete(request, post_pk):
 
 def best_buying_product(request):
     Product.objects.all()
-    li=[n.count for n in Product.objects.all()]
-    index=li.index(max(li))
-    best_product=Product.objects.all()[index]
-    return render(request, 'product/best_buying_product.html',{
-        'best_product':best_product,
+    li = [n.count for n in Product.objects.all()]
+    index = li.index(max(li))
+    best_product = Product.objects.all()[index]
+    return render(request, 'product/best_buying_product.html', {
+        'best_product': best_product,
     })
