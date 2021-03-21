@@ -3,7 +3,6 @@ from .models import Product, Photo, Order
 
 # Register your models here.
 
-
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['basket_user','basket_order','quantity']
@@ -18,5 +17,5 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [PhotoInline,  ]
 
 
-# Register your models here.
+# 상품과 관리자등록 
 admin.site.register(Product, ProductAdmin)
