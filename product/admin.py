@@ -18,4 +18,9 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 # 상품과 관리자등록 
-admin.site.register(Product, ProductAdmin)
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['p_name', 'quantity', 'price', 'created_at', 'updated_at', 'count']
+    list_filter = ['p_name', 'created_at', 'count']
+    search_fields = ('p_name',)
+    date_hierarchy = 'created_at'
